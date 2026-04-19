@@ -1,0 +1,37 @@
+# Ignore data and log files, but keep the directory structure
+data/*
+!data/.gitkeep
+logs/*
+!logs/.gitkeep
+
+# Virtual environments
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Build artifacts
+dist/
+build/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# Cache
+.cache
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo

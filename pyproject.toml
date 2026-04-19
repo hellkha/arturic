@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arturic"
+version = "0.1.0"
+description = "Arturic is a tool for managing data entries. It sums the values of valid entries within the Q4 2025 timeframe (October 1st, 2025 to December 31st, 2025)."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "isort",
+]
+
+[project.scripts]
+arturic = "arturic.main:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
