@@ -13,10 +13,10 @@ def main():
     end_period = datetime(2025, 12, 31, 23, 59, 59)
     print(f"Processing entries between {start_period} and {end_period} ...")
 
-    # Native handoff to the processing orchestrator
+    # Handoff to the processing pipeline
     results = run_pipeline(data_dir, start_period, end_period)
 
-    # Log statistics, including the sum result correctly mapped back
+    # Log statistics, including the sum result
     log_statistics(results.invalid_entries, results.valid_entries, results.total_value)
 
     # Terminal UI

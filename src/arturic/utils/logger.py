@@ -1,3 +1,4 @@
+from dataclasses import asdict
 from pathlib import Path
 import logging
 import json
@@ -25,8 +26,8 @@ def _setup_logger(name: str, log_file: str, log_dir: Path) -> logging.Logger:
 def log_invalid_entry(entry: Entry, log_dir: Path = LOG_DIR):
     """Logs an invalid entry as a JSON string with the reading timestamp handled automatically by the logger."""
     invalid_logger = _setup_logger("invalid_entries", "invalid_entries.log", log_dir)
+    entry_dict = asdict(entry)
 
-    entry_dict = entry.to_dict()
     # Safely convert datetime object to a string format so JSON can serialize it
     if entry_dict.get("timestamp"):
         entry_dict["timestamp"] = entry_dict["timestamp"].isoformat()

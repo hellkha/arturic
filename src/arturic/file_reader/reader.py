@@ -7,11 +7,19 @@ import json
 import csv
 from pathlib import Path
 from datetime import datetime
+from typing import Optional
 from arturic.models.entry import Entry
-from .enums import FileType, MDRField, CSVField, TXTField
+from arturic.file_reader.enums import FileType, MDRField, CSVField, TXTField
 
 
-def read_file(filepath: Path | str) -> list[Entry]:
+def _parse_value(val) -> Optional[float]:
+    try:
+        return float(val)
+    except (ValueError, TypeError):
+        return None
+
+
+def read_file(filepath: Path) -> list[Entry]:
     """Reads a file and returns a list of flattened Entry objects."""
     filepath = Path(filepath)
 
@@ -23,9 +31,10 @@ def read_file(filepath: Path | str) -> list[Entry]:
         return _read_txt(filepath)
     else:
         log_unsupported_file_extension(filepath)
+        return []
 
 
-def _read_mdr(filepath: Path | str) -> list[Entry]:
+def _read_mdr(filepath: Path) -> list[Entry]:
     """Reads a .mdr file and returns a list of flattened Entry objects."""
     with open(filepath, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -46,7 +55,7 @@ def _read_mdr(filepath: Path | str) -> list[Entry]:
                 timestamp=timestamp,
                 ref=item.get(MDRField.REF, ""),
                 bin=item.get(MDRField.BIN, ""),
-                value=float(item.get(MDRField.VALUE, 0.0)),
+                value=_parse_value(item.get(MDRField.VALUE, 0.0)),
                 category=item.get(MDRField.CATEGORY, ""),
             )
         )
@@ -54,7 +63,7 @@ def _read_mdr(filepath: Path | str) -> list[Entry]:
     return entries_list
 
 
-def _read_csv(filepath: Path | str) -> list[Entry]:
+def _read_csv(filepath: Path) -> list[Entry]:
     """Reads a CSV file and maps it to a list of Entry objects."""
     entries_list = []
     with open(filepath, "r", encoding="utf-8") as f:
@@ -68,7 +77,7 @@ def _read_csv(filepath: Path | str) -> list[Entry]:
                     timestamp=datetime.fromisoformat(row.get(CSVField.TIMESTAMP, "")),
                     ref=row.get(CSVField.REF, ""),
                     bin=row.get(CSVField.BIN, ""),
-                    value=float(row.get(CSVField.OUTPUT_METRIC, 0.0)),
+                    value=_parse_value(row.get(CSVField.OUTPUT_METRIC, 0.0)),
                     category=row.get(CSVField.CLASSIFICATION, ""),
                 )
             )
@@ -76,7 +85,7 @@ def _read_csv(filepath: Path | str) -> list[Entry]:
     return entries_list
 
 
-def _read_txt(filepath: Path | str) -> list[Entry]:
+def _read_txt(filepath: Path) -> list[Entry]:
     """Reads a custom formatted TXT file and maps it to a list of Entry objects."""
     entries_list = []
     metadata = {}
@@ -117,7 +126,7 @@ def _read_txt(filepath: Path | str) -> list[Entry]:
                         ),
                         ref=record.get(TXTField.REF, ""),
                         bin=record.get(TXTField.BIN, ""),
-                        value=float(record.get(TXTField.READING, 0.0)),
+                        value=_parse_value(record.get(TXTField.READING, 0.0)),
                         category=record.get(TXTField.TYPE, ""),
                     )
                 )

@@ -12,7 +12,7 @@ def run_pipeline(
     data_dir: Path, start_period: datetime, end_period: datetime
 ) -> PipelineResult:
     """
-    Executes the main data pipeline, handling file discovery, 
+    Executes the main data pipeline, handling file discovery,
     validation, logging of invalid entries, and metric aggregation.
     """
     filepaths = get_valid_file_paths(data_dir)
@@ -25,8 +25,8 @@ def run_pipeline(
     for filepath in filepaths:
         try:
             entries = read_file(filepath)
-        except Exception:
-            continue
+        except Exception as e:
+            raise Exception(f"Failed to read file: {filepath}, Error: {e}")
 
         for entry in entries:
             total_loaded += 1

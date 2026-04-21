@@ -9,6 +9,7 @@ def _find_project_root() -> Path:
             return parent
     raise FileNotFoundError("Could not find project root (no pyproject.toml found)")
 
+
 # Path to project root
 PROJECT_ROOT = _find_project_root()
 

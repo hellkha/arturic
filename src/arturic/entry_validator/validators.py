@@ -1,7 +1,7 @@
 import math
 from datetime import datetime
 from arturic.models.entry import Entry
-from .enums import Department, Processor, Bin, Category
+from arturic.entry_validator.enums import Department, Processor, Bin, Category
 
 _VALID_DEPARTMENTS = {e.value for e in Department}
 _VALID_PROCESSORS = {e.value for e in Processor}
@@ -31,9 +31,7 @@ def validate_category(entry: Entry) -> bool:
 
 def validate_value(entry: Entry) -> bool:
     """Validates if the entry's value is higher than 0, not NaN, not None, not infinity"""
-    if entry.value is None:
-        return False
-    return entry.value > 0 and math.isfinite(entry.value)
+    return entry.value is not None and entry.value > 0 and math.isfinite(entry.value)
 
 
 def validate_timestamp(entry: Entry, start_date: datetime, end_date: datetime) -> bool:

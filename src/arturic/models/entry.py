@@ -1,4 +1,4 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from datetime import datetime
 
 
@@ -15,8 +15,5 @@ class Entry:
     timestamp: datetime
     ref: str
     bin: str
-    value: float
+    value: float | None
     category: str
-
-    def to_dict(self):
-        return asdict(self)

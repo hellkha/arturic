@@ -11,7 +11,7 @@ The project states:
 So the final value is the sum of all entries of all departments, all people, once the invalid entries are filtered out, following the 6 rules in the [Manual](https://d1ihdmbljgo2cz.cloudfront.net/manual.html).
 
 ### Results
-> ***__The sum is: <u>1165175.43</u>__ (exactly: 1165175.4300000023 - more on this in the anomalies section below)***
+> ***__The sum is: <u>1350141.67</u>__ (exactly: 1350141.670000003 - more on this in the anomalies section below)***
 
 ### Rationale
 
